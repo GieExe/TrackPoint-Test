@@ -1,0 +1,54 @@
+﻿<UserControl x:Class="TrackPoint_Test.Views.DashboardView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:TrackPoint_Test.Views"
+             mc:Ignorable="d" 
+             d:DesignHeight="600" d:DesignWidth="1200">
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <!-- Control Panel Row -->
+            <RowDefinition Height="*" />
+            <!-- Data Grid Row -->
+            <RowDefinition Height="Auto" />
+            <!-- Status Bar Row -->
+        </Grid.RowDefinitions>
+
+        <!-- RFID Reader Control Panel -->
+        <GroupBox Header="RFID Reader Controls" Grid.Row="0" Margin="0,0,0,10"
+                  Visibility="{Binding AdminPanelVisibility}" FontWeight="Bold">
+            <StackPanel Orientation="Horizontal" Margin="5">
+                <Button Content="Connect" Command="{Binding ConnectCommand}"/>
+                <Button Content="Disconnect" Command="{Binding DisconnectCommand}"/>
+                <Button Content="Start Reading" Command="{Binding StartReadingCommand}" Margin="20,5,5,5" Background="#FF4CAF50" Foreground="White"/>
+                <Button Content="Stop Reading" Command="{Binding StopReadingCommand}" Background="#FFF44336" Foreground="White"/>
+            </StackPanel>
+        </GroupBox>
+
+        <!-- Documents Data Grid -->
+        <DataGrid Grid.Row="1" ItemsSource="{Binding Documents}"
+                  SelectedItem="{Binding SelectedDocument, Mode=TwoWay}"
+                  AutoGenerateColumns="False" IsReadOnly="True"
+                  CanUserAddRows="False" GridLinesVisibility="Vertical"
+                  VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Title" Binding="{Binding DocumentTitle}" Width="2*"/>
+                <DataGridTextColumn Header="Reference Code" Binding="{Binding DocumentReferenceCode}" Width="*"/>
+                <DataGridTextColumn Header="Owning Department" Binding="{Binding DepartmentName}" Width="*"/>
+                <DataGridTextColumn Header="Status" Binding="{Binding StatusName}" Width="*"/>
+                <DataGridTextColumn Header="Last Known Location" Binding="{Binding LocationName}" Width="*"/>
+                <DataGridTextColumn Header="Last Seen Timestamp" Binding="{Binding LastSeenTimestamp, StringFormat='yyyy-MM-dd HH:mm:ss'}" Width="*"/>
+                <DataGridTextColumn Header="Date Created" Binding="{Binding CreatedAt, StringFormat='yyyy-MM-dd'}" Width="*"/>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <!-- Status Bar -->
+        <StatusBar Grid.Row="2" Margin="0,5,0,0">
+            <StatusBarItem>
+                <TextBlock Text="{Binding StatusMessage}"/>
+            </StatusBarItem>
+        </StatusBar>
+    </Grid>
+</UserControl>
